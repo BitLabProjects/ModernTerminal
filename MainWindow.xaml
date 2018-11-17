@@ -1,0 +1,223 @@
+﻿<Window x:Class="ModernTerminal.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ModernTerminal"
+        mc:Ignorable="d" 
+        Title="Modern Terminal" Height="450" Width="800" Loaded="Window_Loaded"
+        Foreground="{StaticResource ForegroundColor}">
+  <Window.Template>
+    <ControlTemplate TargetType="local:MainWindow">
+      <Border BorderThickness="1" BorderBrush="Gray" Background="#FF303030">
+        <Grid x:Name="grRoot">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+          </Grid.RowDefinitions>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <StackPanel Orientation="Horizontal" Grid.Column="0">
+            <Button Style="{StaticResource TitleBarButton}">
+              <Path Data="M 0,0.5 L 16,0.5 M 0,6.5 L 16,6.5 M 0,12.5 L 16,12.5" HorizontalAlignment="Left" VerticalAlignment="Top" Stroke="{StaticResource ForegroundColor}" StrokeThickness="1" />
+            </Button>
+            <local:ButtonDropDown DropDownContent="{Binding}">
+              <StackPanel Orientation="Horizontal" Margin="4 0">
+                <TextBlock Text="&#x2699;" />
+                <TextBlock Text="{Binding Console.Serial.Name}" Margin="4 0 0 0" />
+              </StackPanel>
+              <local:ButtonDropDown.DropDownContentTemplate>
+                <DataTemplate>
+                  <Grid MinWidth="150" Background="{StaticResource PopupBackground}">
+                    <Grid.Resources>
+                      <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+                        <Setter Property="Margin" Value="10 4 0 4" />
+                        <Setter Property="Height" Value="20" />
+                        <Setter Property="VerticalAlignment" Value="Center" />
+                      </Style>
+                      <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
+                        <Setter Property="Margin" Value="10 4 0 4" />
+                        <Setter Property="Height" Value="20" />
+                        <Setter Property="VerticalAlignment" Value="Center" />
+                      </Style>
+                      <Style TargetType="TextBlock">
+                        <Setter Property="VerticalAlignment" Value="Center" />
+                      </Style>
+                    </Grid.Resources>
+
+                    <Grid Margin="10" DataContext="{Binding Console.Serial}">
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                      </Grid.ColumnDefinitions>
+                      <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                      </Grid.RowDefinitions>
+                      <TextBlock Text="Port" Grid.Row="0" Grid.Column="0" />
+                      <ComboBox Grid.Row="0" Grid.Column="1"
+                                SelectedValue="{Binding Name}" ItemsSource="{Binding AvailableNames}" />
+
+                      <TextBlock Text="Baud rate" Grid.Row="1" Grid.Column="0" />
+                      <TextBox Text="{Binding BaudRate}" Grid.Row="1" Grid.Column="1" />
+
+                      <TextBlock Text="Data bits" Grid.Row="2" Grid.Column="0" />
+                      <TextBox Text="{Binding DataBits}" Grid.Row="2" Grid.Column="1" />
+
+                      <TextBlock Text="Stop bits" Grid.Row="3" Grid.Column="0" />
+                      <ComboBox Grid.Row="3" Grid.Column="1"
+                                SelectedValue="{Binding StopBits}" ItemsSource="{Binding AvailableStopBits}" />
+
+                      <TextBlock Text="Parity" Grid.Row="4" Grid.Column="0" />
+                      <ComboBox Grid.Row="4" Grid.Column="1" 
+                                SelectedValue="{Binding Parity}" ItemsSource="{Binding AvailableParity}" />
+
+                    </Grid>
+                    <!--<TextBlock Text="Hey!" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" />-->
+                  </Grid>
+                </DataTemplate>
+              </local:ButtonDropDown.DropDownContentTemplate>
+            </local:ButtonDropDown>
+            <Button Style="{StaticResource TitleBarButtonWithText}" Click="btnConnect_Click">
+              <StackPanel Orientation="Horizontal" Margin="4 0">
+                <TextBlock Text="&#x1f517;" />
+                <TextBlock Text="{Binding Console.Serial.IsConnected, Converter={StaticResource BooleanToStringConverter}, ConverterParameter='Disconnect|Connect'}" Margin="4 0 0 0" />
+              </StackPanel>
+            </Button>
+          </StackPanel>
+          <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center">
+            <!--
+            <Image Source="{TemplateBinding Icon}" VerticalAlignment="Center" Margin="6 0 4 0"
+                   Width="24" Height="24" Stretch="Uniform" />
+            -->
+            <TextBlock Text="{TemplateBinding Title}" VerticalAlignment="Center" />
+          </StackPanel>
+          <Button x:Name="btnMinimize" Grid.Row="0" Grid.Column="2" Style="{StaticResource TitleBarButton}">
+            <Line X1="0" Y1="10" X2="10" Y2="10" Stroke="{StaticResource ForegroundColor}" StrokeThickness="1" />
+          </Button>
+          <Button x:Name="btnMaximize" Grid.Row="0" Grid.Column="3" Style="{StaticResource TitleBarButton}">
+            <Rectangle Width="10" Height="10" Stroke="{StaticResource ForegroundColor}" StrokeThickness="1" />
+          </Button>
+          <Button x:Name="btnClose" Grid.Row="0" Grid.Column="4" Style="{StaticResource TitleBarButton}">
+            <Path Data="M 0,0 L 10,10 M 10,0 L 0,10" Margin="2" Stroke="{StaticResource ForegroundColor}" StrokeThickness="1" />
+          </Button>
+          <ContentPresenter Grid.Row="1" Grid.ColumnSpan="5" />
+        </Grid>
+      </Border>
+    </ControlTemplate>
+  </Window.Template>
+  <WindowChrome.WindowChrome>
+    <WindowChrome  GlassFrameThickness="0" CornerRadius="0" CaptionHeight="0" UseAeroCaptionButtons="False" ResizeBorderThickness="7"/>
+  </WindowChrome.WindowChrome>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition />
+    </Grid.RowDefinitions>
+
+    <Grid Grid.Row="0">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+    </Grid>
+
+    <Grid Grid.Row="1" Background="{Binding BackgroundColor, RelativeSource={RelativeSource AncestorType=Window}}">
+      <Grid.RowDefinitions>
+        <RowDefinition />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+
+      <ScrollViewer x:Name="svLines" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+        <ItemsControl x:Name="icLines" FontFamily="Fira Code Retina"
+                      ItemsSource="{Binding Console.Lines}" Grid.IsSharedSizeScope="true">
+          <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+              <StackPanel Orientation="Vertical" />
+            </ItemsPanelTemplate>
+          </ItemsControl.ItemsPanel>
+          <ItemsControl.ItemTemplate>
+            <DataTemplate>
+              <Grid UseLayoutRounding="True">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="Auto" SharedSizeGroup="column1" />
+                  <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Border BorderThickness="0 0 1 0" BorderBrush="#404040" Background="#202020">
+                  <Border.ToolTip>
+                    <Grid Margin="5">
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                      </Grid.ColumnDefinitions>
+                      <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                      </Grid.RowDefinitions>
+                      <TextBlock Text="Date" Grid.Row="0" Grid.Column="0" FontWeight="DemiBold" />
+                      <TextBlock Text="{Binding Date}" Grid.Row="0" Grid.Column="1" Margin="10 0" />
+
+                      <TextBlock Text="Type" Grid.Row="1" Grid.Column="0" FontWeight="DemiBold" />
+                      <TextBlock Text="{Binding Glyph}" Grid.Row="1" Grid.Column="1" Margin="10 0" />
+                    </Grid>
+                  </Border.ToolTip>
+                  <!--<TextBlock Text="{Binding LineNumber}" Margin="5 1" VerticalAlignment="Top" />-->
+                  <ContentControl Content="{Binding Glyph}" Margin="0 4 0 0" MinWidth="22" VerticalAlignment="Top">
+                    <ContentControl.ContentTemplateSelector>
+                      <local:EnumDataTemplateSelector Prefix="ConsoleLineGlyph_" />
+                    </ContentControl.ContentTemplateSelector>
+                    <ContentControl.Resources>
+                      <Style x:Key="Path" TargetType="Path">
+                        <Setter Property="RenderTransform">
+                          <Setter.Value>
+                            <TranslateTransform X="0.5" Y="0.0" />
+                          </Setter.Value>
+                        </Setter>
+                        <Setter Property="SnapsToDevicePixels" Value="True" />
+                        <Setter Property="HorizontalAlignment" Value="Center" />
+                        <Setter Property="VerticalAlignment" Value="Center" />
+                      </Style>
+                      <DataTemplate x:Key="ConsoleLineGlyph_None">
+                      </DataTemplate>
+                      <DataTemplate x:Key="ConsoleLineGlyph_Info">
+                        <Path Data="M 0,0 L 0,1 M 0,3 L 0,10" StrokeThickness="2" Stroke="DeepSkyBlue" Style="{StaticResource Path}" />
+                      </DataTemplate>
+                      <DataTemplate x:Key="ConsoleLineGlyph_Error">
+                        <Path Data="M 0,0 L 10,10 M 10,0 L 0,10" StrokeThickness="2" Stroke="Red" Style="{StaticResource Path}" />
+                      </DataTemplate>
+                      <DataTemplate x:Key="ConsoleLineGlyph_Warning">
+                        <Path Data="M 0,10 L 5,0 10,10 Z" StrokeThickness="2" Stroke="Orange" Style="{StaticResource Path}" StrokeLineJoin="Round" />
+                      </DataTemplate>
+                    </ContentControl.Resources>
+                  </ContentControl>
+                </Border>
+                <TextBlock Text="{Binding Text}" VerticalAlignment="Center" Margin="4 2 0 2" Grid.Column="1" />
+              </Grid>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+      </ScrollViewer>
+
+      <Border Grid.Row="1" Height="24" BorderThickness="0 1 0 0" BorderBrush="#404040" Margin="2 0">
+        <TextBox x:Name="tbInput" VerticalAlignment="Center" FontFamily="Fira Code Retina" 
+                 Style="{StaticResource TextBoxWithoutHighlight}"
+                 PreviewKeyDown="TextBox_PreviewKeyDown" />
+      </Border>
+    </Grid>
+
+    <!--<StackPanel Orientation="Vertical" Width="200" HorizontalAlignment="Right">
+      <Slider Minimum="0" Maximum="255" Value="{Binding BlurAlpha, RelativeSource={RelativeSource AncestorType=Window}}" />
+      <Slider Minimum="0" Maximum="255" Value="{Binding BlurGray, RelativeSource={RelativeSource AncestorType=Window}}" />
+      <Slider Minimum="0" Maximum="255" Value="{Binding BackgroundAlpha, RelativeSource={RelativeSource AncestorType=Window}}" />
+      <Slider Minimum="0" Maximum="255" Value="{Binding BackgroundGray, RelativeSource={RelativeSource AncestorType=Window}}" />
+    </StackPanel>-->
+  </Grid>
+</Window>
