@@ -129,5 +129,10 @@ namespace ModernTerminal {
     private void btnConnect_Click(object sender, RoutedEventArgs e) {
       Console.Serial.ConnectOrDisconnect();
     }
+
+    private void DragBorder_MouseDown(object sender, MouseButtonEventArgs e) {
+      if (e.ChangedButton == MouseButton.Left)
+        DragMove();
+    }
   }
 }
