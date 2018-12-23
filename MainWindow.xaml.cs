@@ -48,20 +48,6 @@ namespace ModernTerminal {
       update();
 
       Console.Serial.Autoconnect();
-
-      /*
-      Log.LogInfo("This is a info");
-      Log.LogWarning("This is a warning");
-      Log.LogError("This is a error");
-      */
-
-      icLines.ItemContainerGenerator.ItemsChanged += ItemContainerGenerator_ItemsChanged;
-
-      tbInput.Focus();
-    }
-
-    private void ItemContainerGenerator_ItemsChanged(object sender, System.Windows.Controls.Primitives.ItemsChangedEventArgs e) {
-      svLines.ScrollToEnd();
     }
 
     Button btnMinimize;
@@ -116,32 +102,6 @@ namespace ModernTerminal {
     private void Notify(string propName) {
       if (PropertyChanged != null) {
         PropertyChanged(this, new PropertyChangedEventArgs(propName));
-      }
-    }
-
-    private void TextBox_PreviewKeyDown(object sender, KeyEventArgs e) {
-      var textBox = sender as TextBox;
-      if (e.Key == Key.Return) {
-        Console.SendText((sender as TextBox).Text);
-        textBox.Text = "";
-        e.Handled = true;
-
-      } else if (e.Key == Key.Up) {
-        var previousEntry = Console.History.MovePrevious();
-        if (previousEntry != null) {
-          textBox.Text = previousEntry;
-          textBox.CaretIndex = textBox.Text.Length;
-        }
-        e.Handled = true;
-
-      } else if (e.Key == Key.Down) {
-        var nextEntry = Console.History.MoveNext();
-        if (nextEntry != null) {
-          textBox.Text = nextEntry;
-          textBox.CaretIndex = textBox.Text.Length;
-        }
-        e.Handled = true;
-
       }
     }
 

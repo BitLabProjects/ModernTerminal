@@ -82,7 +82,6 @@
                                 SelectedValue="{Binding Parity}" ItemsSource="{Binding AvailableParity}" />
 
                     </Grid>
-                    <!--<TextBlock Text="Hey!" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" />-->
                   </Grid>
                 </DataTemplate>
               </local:ButtonDropDown.DropDownContentTemplate>
@@ -116,7 +115,7 @@
     </ControlTemplate>
   </Window.Template>
   <WindowChrome.WindowChrome>
-    <WindowChrome  GlassFrameThickness="0" CornerRadius="0" CaptionHeight="0" UseAeroCaptionButtons="False" ResizeBorderThickness="7"/>
+    <WindowChrome  GlassFrameThickness="0" CornerRadius="0" CaptionHeight="0" UseAeroCaptionButtons="False" ResizeBorderThickness="4"/>
   </WindowChrome.WindowChrome>
   <Grid>
     <Grid.RowDefinitions>
@@ -124,102 +123,8 @@
       <RowDefinition />
     </Grid.RowDefinitions>
 
-    <!--<Grid Grid.Row="0">
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition />
-        <ColumnDefinition Width="Auto" />
-      </Grid.ColumnDefinitions>
-    </Grid>-->
-
     <Grid Grid.Row="1" Background="{Binding BackgroundColor, RelativeSource={RelativeSource AncestorType=Window}}">
-      <Grid.RowDefinitions>
-        <RowDefinition />
-        <RowDefinition Height="Auto" />
-      </Grid.RowDefinitions>
-
-      <ScrollViewer x:Name="svLines" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-        <ItemsControl x:Name="icLines" FontFamily="{StaticResource FiraCodeRetina}"
-                      ItemsSource="{Binding Console.Lines}" Grid.IsSharedSizeScope="true">
-          <ItemsControl.ItemsPanel>
-            <ItemsPanelTemplate>
-              <StackPanel Orientation="Vertical" />
-            </ItemsPanelTemplate>
-          </ItemsControl.ItemsPanel>
-          <ItemsControl.ItemTemplate>
-            <DataTemplate>
-              <Grid UseLayoutRounding="True">
-                <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="Auto" SharedSizeGroup="column1" />
-                  <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <Border BorderThickness="0 0 1 0" BorderBrush="#404040" Background="#202020">
-                  <Border.ToolTip>
-                    <Grid Margin="5">
-                      <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                      </Grid.ColumnDefinitions>
-                      <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
-                      </Grid.RowDefinitions>
-                      <TextBlock Text="Date" Grid.Row="0" Grid.Column="0" FontWeight="DemiBold" />
-                      <TextBlock Text="{Binding Date}" Grid.Row="0" Grid.Column="1" Margin="10 0" />
-
-                      <TextBlock Text="Type" Grid.Row="1" Grid.Column="0" FontWeight="DemiBold" />
-                      <TextBlock Text="{Binding Glyph}" Grid.Row="1" Grid.Column="1" Margin="10 0" />
-                    </Grid>
-                  </Border.ToolTip>
-                  <!--<TextBlock Text="{Binding LineNumber}" Margin="5 1" VerticalAlignment="Top" />-->
-                  <ContentControl Content="{Binding Glyph}" Margin="0 4 0 0" MinWidth="22" VerticalAlignment="Top">
-                    <ContentControl.ContentTemplateSelector>
-                      <local:EnumDataTemplateSelector Prefix="ConsoleLineGlyph_" />
-                    </ContentControl.ContentTemplateSelector>
-                    <ContentControl.Resources>
-                      <Style x:Key="Path" TargetType="Path">
-                        <Setter Property="RenderTransform">
-                          <Setter.Value>
-                            <TranslateTransform X="0.5" Y="0.0" />
-                          </Setter.Value>
-                        </Setter>
-                        <Setter Property="SnapsToDevicePixels" Value="True" />
-                        <Setter Property="HorizontalAlignment" Value="Center" />
-                        <Setter Property="VerticalAlignment" Value="Center" />
-                      </Style>
-                      <DataTemplate x:Key="ConsoleLineGlyph_None">
-                      </DataTemplate>
-                      <DataTemplate x:Key="ConsoleLineGlyph_Info">
-                        <Path Data="M 0,0 L 0,1 M 0,3 L 0,10" StrokeThickness="2" Stroke="DeepSkyBlue" Style="{StaticResource Path}" />
-                      </DataTemplate>
-                      <DataTemplate x:Key="ConsoleLineGlyph_Error">
-                        <Path Data="M 0,0 L 10,10 M 10,0 L 0,10" StrokeThickness="2" Stroke="Red" Style="{StaticResource Path}" />
-                      </DataTemplate>
-                      <DataTemplate x:Key="ConsoleLineGlyph_Warning">
-                        <Path Data="M 0,10 L 5,0 10,10 Z" StrokeThickness="2" Stroke="Orange" Style="{StaticResource Path}" StrokeLineJoin="Round" />
-                      </DataTemplate>
-                    </ContentControl.Resources>
-                  </ContentControl>
-                </Border>
-                <TextBlock Text="{Binding Text}" VerticalAlignment="Center" Margin="4 2 0 2" Grid.Column="1" />
-              </Grid>
-            </DataTemplate>
-          </ItemsControl.ItemTemplate>
-        </ItemsControl>
-      </ScrollViewer>
-
-      <Border Grid.Row="1" Height="24" BorderThickness="0 1 0 0" BorderBrush="#404040" Margin="2 0">
-        <Grid>
-          <TextBox x:Name="tbInput" VerticalAlignment="Center" FontFamily="{StaticResource FiraCodeRetina}" 
-                   Style="{StaticResource TextBoxWithoutHighlight}" Margin="0 0 22 0"
-                   PreviewKeyDown="TextBox_PreviewKeyDown" />
-          <Button HorizontalAlignment="Right" Width="20" Height="20" Padding="0">
-            <Viewbox Width="14">
-              <Path Data="M 1.763887,0.88194467 V 1.8276237 L 2.392616,2.4580757 2.237587,2.6131047 1.5434,1.9206407 V 0.88194467 Z M 3.389972,1.0765927 q 0.137803,0.330729 0.137803,0.687296 0,0.356568 -0.137803,0.687297 -0.134359,0.315226 -0.378961,0.559828 -0.244602,0.244602 -0.559828,0.37896 -0.330729,0.137804 -0.687296,0.137804 -0.299724,0 -0.578776,-0.09819 Q 0.912948,3.3348477 0.687294,3.1608707 0.463363,2.9868927 0.303166,2.7509037 0.222206,2.6320477 0.161917,2.5028567 0.103347,2.3736657 0.065457,2.2341397 l 0.211873,-0.05857 q 0.0689,0.24977 0.211873,0.458198 0.144694,0.208428 0.341065,0.35829 0.19637,0.149862 0.435804,0.232544 0.239434,0.08268 0.497817,0.08268 0.211873,0 0.408243,-0.05512 0.198093,-0.05512 0.368626,-0.15503 0.172254,-0.10163 0.313503,-0.242879 0.141249,-0.141249 0.241157,-0.311781 0.10163,-0.172255 0.156752,-0.368625 0.05512,-0.196371 0.05512,-0.409967 0,-0.211873 -0.05512,-0.408243 -0.05512,-0.198093 -0.156752,-0.36862603 -0.09991,-0.172254 -0.241157,-0.313503 -0.141249,-0.141249 -0.313503,-0.241157 -0.170533,-0.10163 -0.368626,-0.156752 -0.19637,-0.05512 -0.408243,-0.05512 -0.223932,0 -0.434082,0.06373 -0.210151,0.06201 -0.392741,0.177422 -0.180868,0.115411 -0.327284,0.279053 -0.144694,0.16192 -0.239435,0.36173503 h 0.511597 v 0.220486 H 0 V 0.44096067 h 0.220486 v 0.471978 q 0.02928,-0.05512 0.06373,-0.106798 0.03445,-0.0534 0.07235,-0.103353 0.16192,-0.215318 0.378961,-0.37207 0.227376,-0.16192 0.487481,-0.246325 Q 1.483112,-7.328186e-6 1.763888,-7.328186e-6 q 0.356567,0 0.687296,0.137802998186 0.315226,0.134359 0.559828,0.378961 0.244602,0.244602 0.378961,0.55982803 z"
-                    Fill="{StaticResource ForegroundColor}" />
-            </Viewbox>
-          </Button>
-        </Grid>
-      </Border>
+      <local:ConsolePage DataContext="{Binding Console}" />
     </Grid>
 
     <local:BitlabMadeWithLove HorizontalAlignment="Right" VerticalAlignment="Top" Grid.Row="1" />

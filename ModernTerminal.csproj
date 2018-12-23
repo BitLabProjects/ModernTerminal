@@ -70,6 +70,9 @@
     <Compile Include="Log\Log.cs" />
     <Compile Include="Log\LogMessage.cs" />
     <Compile Include="Console\Serial.cs" />
+    <Compile Include="Pages\ConsolePage.xaml.cs">
+      <DependentUpon>ConsolePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Utils\ViewModelBase.cs" />
     <Compile Include="Win32.cs" />
     <Page Include="Controls\BitlabMadeWithLove.xaml">
@@ -89,6 +92,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="ControlTemplates.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\ConsolePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -16,7 +16,7 @@ namespace ModernTerminal {
     }
 
     public void AddToHistory(string text) {
-      HistoryLines.Add(new ConsoleHistoryLine(text));
+      HistoryLines.Add(new ConsoleHistoryLine(text, DateTime.Now));
       mHistoryLineCurrIdx = HistoryLines.Count;
     }
 
@@ -42,13 +42,19 @@ namespace ModernTerminal {
 
       var xHistory = xDoc.Descendants(XName.Get("History")).FirstOrDefault();
       if (xHistory != null) {
-        foreach(var xHistoryLine in xHistory.Elements(XName.Get("HistoryLine"))) {
+        foreach (var xHistoryLine in xHistory.Elements(XName.Get("HistoryLine"))) {
           var xAttrText = xHistoryLine.Attribute(XName.Get("Text"));
-          if (xAttrText != null) {
-            AddToHistory(xAttrText.Value);
+          var xAttrDate = xHistoryLine.Attribute(XName.Get("Date"));
+          DateTime date;
+          if (xAttrText != null &&
+              xAttrDate != null &&
+              DateTime.TryParse(xAttrDate.Value, out date)) {
+            HistoryLines.Add(new ConsoleHistoryLine(xAttrText.Value, date));
           }
         }
       }
+
+      mHistoryLineCurrIdx = HistoryLines.Count;
     }
 
     public XElement ToXElement() {
@@ -56,7 +62,8 @@ namespace ModernTerminal {
 
       foreach (var h in HistoryLines) {
         result.Add(new XElement(XName.Get("HistoryLine"),
-                                new XAttribute(XName.Get("Text"), h.Text)
+                                new XAttribute(XName.Get("Text"), h.Text),
+                                new XAttribute(XName.Get("Date"), h.Date.ToString("O"))
                                 ));
       }
 
@@ -66,8 +73,10 @@ namespace ModernTerminal {
 
   public class ConsoleHistoryLine {
     public string Text { get; }
-    public ConsoleHistoryLine(string text) {
+    public DateTime Date { get; }
+    public ConsoleHistoryLine(string text, DateTime date) {
       this.Text = text;
+      this.Date = date;
     }
   }
 }
