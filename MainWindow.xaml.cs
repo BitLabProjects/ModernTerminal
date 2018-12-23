@@ -126,7 +126,7 @@ namespace ModernTerminal {
         e.Handled = true;
 
       } else if (e.Key == Key.Up) {
-        var previousEntry = Console.HistoryMovePrevious();
+        var previousEntry = Console.History.MovePrevious();
         if (previousEntry != null) {
           textBox.Text = previousEntry;
           textBox.CaretIndex = textBox.Text.Length;
@@ -134,7 +134,7 @@ namespace ModernTerminal {
         e.Handled = true;
 
       } else if (e.Key == Key.Down) {
-        var nextEntry = Console.HistoryMoveNext();
+        var nextEntry = Console.History.MoveNext();
         if (nextEntry != null) {
           textBox.Text = nextEntry;
           textBox.CaretIndex = textBox.Text.Length;
