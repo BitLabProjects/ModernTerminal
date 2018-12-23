@@ -5,9 +5,12 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 
 namespace ModernTerminal {
   public class ViewModelBase: INotifyPropertyChanged {
+    public static Dispatcher Dispatcher;
+
     public event PropertyChangedEventHandler PropertyChanged;
     protected void Notify(string propName) {
       if (PropertyChanged != null) {

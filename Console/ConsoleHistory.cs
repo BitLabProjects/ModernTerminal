@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace ModernTerminal {
   public class ConsoleHistory {
@@ -34,6 +35,32 @@ namespace ModernTerminal {
     private string mGetHistoryLine() {
       if (mHistoryLineCurrIdx < 0 || mHistoryLineCurrIdx >= HistoryLines.Count) return "";
       return HistoryLines[mHistoryLineCurrIdx].Text;
+    }
+
+    public void LoadConfig(XDocument xDoc) {
+      HistoryLines.Clear();
+
+      var xHistory = xDoc.Descendants(XName.Get("History")).FirstOrDefault();
+      if (xHistory != null) {
+        foreach(var xHistoryLine in xHistory.Elements(XName.Get("HistoryLine"))) {
+          var xAttrText = xHistoryLine.Attribute(XName.Get("Text"));
+          if (xAttrText != null) {
+            AddToHistory(xAttrText.Value);
+          }
+        }
+      }
+    }
+
+    public XElement ToXElement() {
+      var result = new XElement("History");
+
+      foreach (var h in HistoryLines) {
+        result.Add(new XElement(XName.Get("HistoryLine"),
+                                new XAttribute(XName.Get("Text"), h.Text)
+                                ));
+      }
+
+      return result;
     }
   }
 

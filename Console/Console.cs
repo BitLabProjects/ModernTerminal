@@ -7,22 +7,29 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Threading;
+using System.Xml.Linq;
 
 namespace ModernTerminal {
-  public class Console: ViewModelBase, ILogListener {
+  public class Console : ViewModelBase, ILogListener {
     private int mLastLineNumber;
     private bool mLastLineIsOpen;
 
-    private Dispatcher mDispatcher;
     public ObservableCollection<ConsoleLine> Lines { get; set; }
     public ConsoleHistory History { get; }
 
-    public Console(Dispatcher dispatcher) {
-      mDispatcher = dispatcher;
-      Lines = new ObservableCollection<ConsoleLine>();
-      History = new ConsoleHistory();
+    private bool mSaveIsDirty;
+    private DispatcherTimer mSaveTimer;
+
+    public Console() {
       mLastLineNumber = 0;
       mLastLineIsOpen = false;
+
+      Lines = new ObservableCollection<ConsoleLine>();
+      History = new ConsoleHistory();
+
+      mSaveIsDirty = false;
+      mSaveTimer = new DispatcherTimer(TimeSpan.FromSeconds(5), DispatcherPriority.Background, mSaveTimer_Tick, Dispatcher);
+
       Serial = new Serial(this.mSerial_DataReadCallback);
 
       Log.Register(this);
@@ -65,7 +72,7 @@ namespace ModernTerminal {
     }
 
     public void ReceiveText(string input, ConsoleLineGlyph glyph = ConsoleLineGlyph.None, bool isCompleteLine = true) {
-      mDispatcher.Invoke(new Action(() => {
+      Dispatcher.Invoke(new Action(() => {
         if (mLastLineIsOpen) {
           var l = Lines[Lines.Count - 1];
           Lines[Lines.Count - 1] = new ConsoleLine(l.LineNumber, l.Text + input, l.Glyph);
@@ -78,9 +85,8 @@ namespace ModernTerminal {
     }
 
     public void SendText(string input) {
-      mDispatcher.Invoke(() => {
-        History.AddToHistory(input);
-      });
+      History.AddToHistory(input);
+      mSaveIsDirty = true;
 
       if (!Serial.IsConnected) {
         Log.LogError("Serial port not connected");
@@ -92,6 +98,53 @@ namespace ModernTerminal {
 
       Serial.Send(input);
     }
+
+    #region Configuration Load-Save
+    private void mSaveTimer_Tick(object sender, EventArgs e) {
+      if (mSaveIsDirty) {
+        mSaveIsDirty = false;
+        SaveConfig();
+      }
+    }
+    const string configFileName = "config.xml";
+    public void LoadConfig() {
+      if (!System.IO.File.Exists(configFileName)) {
+        return;
+      }
+
+      try {
+        using (var file = System.IO.File.OpenRead(configFileName)) {
+          var xDoc = XDocument.Load(file);
+          History.LoadConfig(xDoc);
+        }
+      } catch (Exception ex) {
+        Log.LogError($"Could not restore configuration from {configFileName}: {ex.Message}");
+      }
+    }
+
+    public void SaveConfig() {
+      try {
+        // Create a backup copy of the configuration
+        const string configFileNameTemp = configFileName + ".temp";
+
+        var xDoc = new XDocument(
+                    new XDeclaration("1.0", "utf-8", "yes"),
+                    new XElement("ModernTerminal",
+                      History.ToXElement()
+                    )
+                );
+
+        xDoc.Save(configFileNameTemp, SaveOptions.None);
+
+        // Delete the backup file: no exception encountered
+        System.IO.File.Delete(configFileName);
+        System.IO.File.Move(configFileNameTemp, configFileName);
+
+      } catch (Exception ex) {
+        Log.LogError($"Could not save configuration to {configFileName}: {ex.Message}");
+      }
+    }
+    #endregion
   }
 
   public enum ConsoleLineGlyph {

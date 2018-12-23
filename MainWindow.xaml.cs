@@ -31,7 +31,8 @@ namespace ModernTerminal {
       mBackgroundAlpha = 0xff;
       mBackgroundGray = 0x10;
 
-      Console = new Console(Dispatcher);
+      Console = new Console();
+      Console.LoadConfig();
       DataContext = this;
     }
 
