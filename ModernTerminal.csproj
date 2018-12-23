@@ -58,6 +58,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Console\Console.cs" />
+    <Compile Include="Controls\BitlabMadeWithLove.xaml.cs">
+      <DependentUpon>BitlabMadeWithLove.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ButtonDropDown.cs" />
     <Compile Include="Converters\BooleanToStringConverter.cs" />
     <Compile Include="Converters\EnumDataTemplateSelector.cs" />
@@ -68,6 +71,10 @@
     <Compile Include="Console\Serial.cs" />
     <Compile Include="Utils\ViewModelBase.cs" />
     <Compile Include="Win32.cs" />
+    <Page Include="Controls\BitlabMadeWithLove.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -222,30 +222,7 @@
       </Border>
     </Grid>
 
-    <Border HorizontalAlignment="Right" VerticalAlignment="Top"
-            Grid.Row="1" Background="#80555555">
-      <StackPanel Orientation="Horizontal" Margin="5">
-        <TextBlock Text="Made with" VerticalAlignment="Center" />
-        <Viewbox Width="16" Height="16" Margin="4 2">
-          <Path Data="M0 200 v-200 h200 a100,100 90 0,1 0,200 a100,100 90 0,1 -200,0 z" 
-              StrokeThickness="0" Fill="Red">
-            <Path.RenderTransform>
-              <RotateTransform Angle="225" CenterX="150" CenterY="121" />
-            </Path.RenderTransform>
-          </Path>
-        </Viewbox>
-        <TextBlock Text="by bitLab" VerticalAlignment="Center" />
-      </StackPanel>
-      <Border.Triggers>
-        <EventTrigger RoutedEvent="Loaded">
-          <BeginStoryboard>
-            <Storyboard>
-              <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:1" BeginTime="0:0:3" />
-            </Storyboard>
-          </BeginStoryboard>
-        </EventTrigger>
-      </Border.Triggers>
-    </Border>
+    <local:BitlabMadeWithLove HorizontalAlignment="Right" VerticalAlignment="Top" Grid.Row="1" />
 
     <!--<StackPanel Orientation="Vertical" Width="200" HorizontalAlignment="Right">
       <Slider Minimum="0" Maximum="255" Value="{Binding BlurAlpha, RelativeSource={RelativeSource AncestorType=Window}}" />
