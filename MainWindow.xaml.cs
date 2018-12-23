@@ -119,10 +119,28 @@ namespace ModernTerminal {
     }
 
     private void TextBox_PreviewKeyDown(object sender, KeyEventArgs e) {
+      var textBox = sender as TextBox;
       if (e.Key == Key.Return) {
         Console.SendText((sender as TextBox).Text);
-        (sender as TextBox).Text = "";
+        textBox.Text = "";
         e.Handled = true;
+
+      } else if (e.Key == Key.Up) {
+        var previousEntry = Console.HistoryMovePrevious();
+        if (previousEntry != null) {
+          textBox.Text = previousEntry;
+          textBox.CaretIndex = textBox.Text.Length;
+        }
+        e.Handled = true;
+
+      } else if (e.Key == Key.Down) {
+        var nextEntry = Console.HistoryMoveNext();
+        if (nextEntry != null) {
+          textBox.Text = nextEntry;
+          textBox.CaretIndex = textBox.Text.Length;
+        }
+        e.Handled = true;
+
       }
     }
 

@@ -127,7 +127,7 @@
                 <VisualState x:Name="MouseOver" />
               </VisualStateGroup>
             </VisualStateManager.VisualStateGroups>
-            <ScrollViewer Margin="0" x:Name="PART_ContentHost" />
+            <ScrollViewer Margin="{TemplateBinding Padding}" x:Name="PART_ContentHost" />
           </Border>
         </ControlTemplate>
       </Setter.Value>

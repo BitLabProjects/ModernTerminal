@@ -15,10 +15,13 @@ namespace ModernTerminal {
 
     private Dispatcher mDispatcher;
     public ObservableCollection<ConsoleLine> Lines { get; set; }
+    private int mHistoryLineCurrIdx;
+    public ObservableCollection<ConsoleHistoryLine> HistoryLines { get; set; }
 
     public Console(Dispatcher dispatcher) {
       mDispatcher = dispatcher;
       Lines = new ObservableCollection<ConsoleLine>();
+      HistoryLines = new ObservableCollection<ConsoleHistoryLine>();
       mLastLineNumber = 0;
       mLastLineIsOpen = false;
       Serial = new Serial(this.mSerial_DataReadCallback);
@@ -76,16 +79,37 @@ namespace ModernTerminal {
     }
 
     public void SendText(string input) {
-      mLastLineIsOpen = false;
+      mDispatcher.Invoke(() => {
+        HistoryLines.Add(new ConsoleHistoryLine(input));
+        mHistoryLineCurrIdx = HistoryLines.Count;
+      });
 
       if (!Serial.IsConnected) {
-        ReceiveText("Error: Serial port not connected");
+        Log.LogError("Serial port not connected");
         return;
       }
 
+      mLastLineIsOpen = false;
       ReceiveText(input);
 
       Serial.Send(input);
+    }
+
+    public string HistoryMovePrevious() {
+      if (mHistoryLineCurrIdx > 0) {
+        mHistoryLineCurrIdx -= 1;
+      }
+      return mGetHistoryLine();
+    }
+    public string HistoryMoveNext() {
+      if (mHistoryLineCurrIdx < HistoryLines.Count) {
+        mHistoryLineCurrIdx += 1;
+      }
+      return mGetHistoryLine();
+    }
+    private string mGetHistoryLine() {
+      if (mHistoryLineCurrIdx < 0 || mHistoryLineCurrIdx >= HistoryLines.Count) return "";
+      return HistoryLines[mHistoryLineCurrIdx].Text;
     }
   }
 
@@ -107,6 +131,13 @@ namespace ModernTerminal {
       this.LineNumber = lineNumber;
       this.Text = text;
       this.Glyph = glyph;
+    }
+  }
+
+  public class ConsoleHistoryLine {
+    public string Text { get; }
+    public ConsoleHistoryLine(string text) {
+      this.Text = text;
     }
   }
 }
