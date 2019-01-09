@@ -115,7 +115,7 @@
     </ControlTemplate>
   </Window.Template>
   <WindowChrome.WindowChrome>
-    <WindowChrome  GlassFrameThickness="0" CornerRadius="0" CaptionHeight="0" UseAeroCaptionButtons="False" ResizeBorderThickness="4"/>
+    <WindowChrome GlassFrameThickness="0" CornerRadius="0" CaptionHeight="0" UseAeroCaptionButtons="False" ResizeBorderThickness="4"/>
   </WindowChrome.WindowChrome>
   <Grid>
     <Grid.RowDefinitions>
@@ -123,17 +123,29 @@
       <RowDefinition />
     </Grid.RowDefinitions>
 
-    <Grid Grid.Row="1" Background="{Binding BackgroundColor, RelativeSource={RelativeSource AncestorType=Window}}">
-      <local:ConsolePage DataContext="{Binding Console}" />
-    </Grid>
+    <local:PagesView Grid.Row="1">
+      <local:PagesView.Pages>
+        
+        <local:PageDefinition Name="Console">
+          <local:PageDefinition.Template>
+            <DataTemplate>
+              <local:ConsolePage DataContext="{Binding Console}" />
+            </DataTemplate>
+          </local:PageDefinition.Template>
+        </local:PageDefinition>
+        
+        <local:PageDefinition Name="History">
+          <local:PageDefinition.Template>
+            <DataTemplate>
+              <local:HistoryPage DataContext="{Binding Console}" />
+            </DataTemplate>
+          </local:PageDefinition.Template>
+        </local:PageDefinition>
+        
+      </local:PagesView.Pages>
+    </local:PagesView>
 
     <local:BitlabMadeWithLove HorizontalAlignment="Right" VerticalAlignment="Top" Grid.Row="1" />
 
-    <!--<StackPanel Orientation="Vertical" Width="200" HorizontalAlignment="Right">
-      <Slider Minimum="0" Maximum="255" Value="{Binding BlurAlpha, RelativeSource={RelativeSource AncestorType=Window}}" />
-      <Slider Minimum="0" Maximum="255" Value="{Binding BlurGray, RelativeSource={RelativeSource AncestorType=Window}}" />
-      <Slider Minimum="0" Maximum="255" Value="{Binding BackgroundAlpha, RelativeSource={RelativeSource AncestorType=Window}}" />
-      <Slider Minimum="0" Maximum="255" Value="{Binding BackgroundGray, RelativeSource={RelativeSource AncestorType=Window}}" />
-    </StackPanel>-->
   </Grid>
 </Window>

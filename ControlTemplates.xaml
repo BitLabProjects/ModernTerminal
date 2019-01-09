@@ -474,4 +474,16 @@
       </Setter.Value>
     </Setter>
   </Style>
+
+  <!-- PagesView -->
+  <Style TargetType="local:PagesView">
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="local:PagesView">
+          <Grid Name="HostGrid">
+          </Grid>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
 </ResourceDictionary>
