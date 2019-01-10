@@ -123,13 +123,13 @@
       <RowDefinition />
     </Grid.RowDefinitions>
 
-    <local:PagesView Grid.Row="1">
+    <local:PagesView Grid.Row="1" DataContext="{Binding Console}">
       <local:PagesView.Pages>
         
         <local:PageDefinition Name="Console">
           <local:PageDefinition.Template>
             <DataTemplate>
-              <local:ConsolePage DataContext="{Binding Console}" />
+              <local:ConsolePage />
             </DataTemplate>
           </local:PageDefinition.Template>
         </local:PageDefinition>
@@ -137,7 +137,7 @@
         <local:PageDefinition Name="History">
           <local:PageDefinition.Template>
             <DataTemplate>
-              <local:HistoryPage DataContext="{Binding Console}" />
+              <local:HistoryPage />
             </DataTemplate>
           </local:PageDefinition.Template>
         </local:PageDefinition>

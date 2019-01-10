@@ -23,5 +23,22 @@
     </Button>
 
     <TextBlock Text="History" TextAlignment="Center" FontSize="36" Margin="20" />
+
+    <ItemsControl Grid.Row="1" ItemsSource="{Binding History.HistoryLinesGroupedByDate}" Margin="10 0">
+      <ItemsControl.ItemTemplate>
+        <DataTemplate>
+          <StackPanel>
+            <TextBlock Text="{Binding Key}" FontSize="16" FontWeight="Bold" Margin="0 10 0 5" />
+            <ItemsControl ItemsSource="{Binding Items}">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                  <TextBlock Text="{Binding Text}" />
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+          </StackPanel>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+    </ItemsControl>
   </Grid>
 </UserControl>

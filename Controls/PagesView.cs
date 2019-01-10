@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Data;
 using System.Windows.Media;
 
 namespace ModernTerminal {
@@ -33,6 +34,9 @@ namespace ModernTerminal {
 
       if (hostGrid != null) {
         var pageHost = new ContentControl();
+        var b = new Binding("DataContext");
+        b.Source = this;
+        pageHost.SetBinding(ContentControl.ContentProperty, b);
         hostGrid.Children.Add(pageHost);
       }
 

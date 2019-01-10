@@ -81,6 +81,7 @@
     <Compile Include="Pages\HistoryPage.xaml.cs">
       <DependentUpon>HistoryPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Reactive\Grouping.cs" />
     <Compile Include="Utils\ViewModelBase.cs" />
     <Compile Include="Win32.cs" />
     <Page Include="Controls\BitlabMadeWithLove.xaml">

@@ -10,9 +10,11 @@ namespace ModernTerminal {
   public class ConsoleHistory {
     private int mHistoryLineCurrIdx;
     public ObservableCollection<ConsoleHistoryLine> HistoryLines { get; set; }
+    public Grouping<string, ConsoleHistoryLine> HistoryLinesGroupedByDate { get; }
 
     public ConsoleHistory() {
       HistoryLines = new ObservableCollection<ConsoleHistoryLine>();
+      HistoryLinesGroupedByDate = new Grouping<string, ConsoleHistoryLine>(HistoryLines, (hl) => hl.Date.DayOfWeek.ToString());
     }
 
     public void AddToHistory(string text) {
