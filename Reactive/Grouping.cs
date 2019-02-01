@@ -21,10 +21,14 @@ namespace ModernTerminal {
   public class Grouping<TKey, TItem> : ObservableCollection<Group<TKey, TItem>> {
     private readonly ObservableCollection<TItem> source;
     private readonly Func<TItem, TKey> keySelector;
+    private readonly Comparison<TKey> keyComparer;
 
-    public Grouping(ObservableCollection<TItem> source, Func<TItem, TKey> keySelector) {
+    public Grouping(ObservableCollection<TItem> source, 
+                    Func<TItem, TKey> keySelector,
+                    Comparison<TKey> keyComparer) {
       this.source = source;
       this.keySelector = keySelector;
+      this.keyComparer = keyComparer;
 
       this.source.CollectionChanged += Source_CollectionChanged;
     }
@@ -73,7 +77,13 @@ namespace ModernTerminal {
         }
       }
       // No group found, add a new one
-      Add(new Group<TKey, TItem>(key, item));
+      var newGroup = new Group<TKey, TItem>(key, item);
+      var index = ListUtils.BinarySearch(this, newGroup, (x, y) => keyComparer(x.Key, y.Key));
+      if (index < 0) {
+        Add(newGroup);
+      } else {
+        Insert(index, newGroup);
+      }
     }
   }
 }

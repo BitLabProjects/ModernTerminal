@@ -22,6 +22,15 @@ namespace ModernTerminal {
     private void UserControl_Loaded(object sender, RoutedEventArgs e) {
       icLines.ItemContainerGenerator.ItemsChanged += ItemContainerGenerator_ItemsChanged;
 
+      var pagesView = Helpers.GetParentOfType<PagesView>(this);
+      if (pagesView != null) {
+        var argument = pagesView.GetArgument();
+        if (argument != null) {
+          tbInput.Text = argument;
+          tbInput.CaretIndex = tbInput.Text.Length;
+        }
+      }
+
       tbInput.Focus();
     }
 
