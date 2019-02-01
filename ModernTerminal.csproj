@@ -62,12 +62,14 @@
     </ApplicationDefinition>
     <Compile Include="Console\Console.cs" />
     <Compile Include="Console\ConsoleHistory.cs" />
+    <Compile Include="Controls\AnimationUtils.cs" />
     <Compile Include="Controls\BitlabMadeWithLove.xaml.cs">
       <DependentUpon>BitlabMadeWithLove.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\ButtonDropDown.cs" />
     <Compile Include="Controls\Helpers.cs" />
     <Compile Include="Controls\PagesView.cs" />
+    <Compile Include="Controls\ScrollViewer.cs" />
     <Compile Include="Converters\BooleanToStringConverter.cs" />
     <Compile Include="Converters\EnumDataTemplateSelector.cs" />
     <Compile Include="Log\ELogMessageType.cs" />
@@ -82,6 +84,8 @@
       <DependentUpon>HistoryPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Reactive\Grouping.cs" />
+    <Compile Include="Utils\DelegateCommand.cs" />
+    <Compile Include="Utils\ListUtils.cs" />
     <Compile Include="Utils\ViewModelBase.cs" />
     <Compile Include="Win32.cs" />
     <Page Include="Controls\BitlabMadeWithLove.xaml">

@@ -33,6 +33,8 @@
     <Setter Property="FocusVisualStyle" Value="{StaticResource ButtonFocusVisual}" />
     <!--<Setter Property="MinHeight" Value="23" />-->
     <!--<Setter Property="MinWidth" Value="75" />-->
+    <Setter Property="HorizontalContentAlignment" Value="Center" />
+    <Setter Property="VerticalContentAlignment" Value="Center" />
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="Button">
@@ -40,7 +42,9 @@
             <Border x:Name="Border" TextBlock.Foreground="{TemplateBinding Foreground}"
                   BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
                   Background="{TemplateBinding Background}" />
-            <ContentPresenter Margin="{TemplateBinding Padding}" HorizontalAlignment="Center" VerticalAlignment="Center" RecognizesAccessKey="True" />
+            <ContentPresenter Margin="{TemplateBinding Padding}" 
+                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}" RecognizesAccessKey="True" />
             <Border x:Name="Highlight" Background="#00FFFFFF" BorderThickness="0" />
 
             <VisualStateManager.VisualStateGroups>

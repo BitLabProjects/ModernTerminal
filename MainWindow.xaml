@@ -117,7 +117,8 @@
   <WindowChrome.WindowChrome>
     <WindowChrome GlassFrameThickness="0" CornerRadius="0" CaptionHeight="0" UseAeroCaptionButtons="False" ResizeBorderThickness="4"/>
   </WindowChrome.WindowChrome>
-  <Grid>
+  <Grid Background="{Binding BackgroundColor, RelativeSource={RelativeSource AncestorType=Window}}"
+        ClipToBounds="True">
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" />
       <RowDefinition />

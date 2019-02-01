@@ -25,7 +25,7 @@ namespace ModernTerminal {
       mLastLineIsOpen = false;
 
       Lines = new ObservableCollection<ConsoleLine>();
-      History = new ConsoleHistory();
+      History = new ConsoleHistory(this);
 
       mSaveIsDirty = false;
       mSaveTimer = new DispatcherTimer(TimeSpan.FromSeconds(5), DispatcherPriority.Background, mSaveTimer_Tick, Dispatcher);
