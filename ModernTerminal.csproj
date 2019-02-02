@@ -70,6 +70,7 @@
     <Compile Include="Controls\Helpers.cs" />
     <Compile Include="Controls\PagesView.cs" />
     <Compile Include="Controls\ScrollViewer.cs" />
+    <Compile Include="Controls\Underline.cs" />
     <Compile Include="Converters\BooleanToStringConverter.cs" />
     <Compile Include="Converters\EnumDataTemplateSelector.cs" />
     <Compile Include="Log\ELogMessageType.cs" />
