@@ -11,6 +11,7 @@
   <SolidColorBrush x:Key="HighlightLineColor" Color="#0062E2" />
   <SolidColorBrush x:Key="PopupBackground" Color="#F0555555" />
   <Color x:Key="HighlightColor">#20FFFFFF</Color>
+  <SolidColorBrush x:Key="WindowBackground" Color="#FF101010" />
 
   <!-- FocusVisual -->
 
@@ -489,123 +490,52 @@
     </Setter>
   </Style>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <!--
-  <Style TargetType="{x:Type TextBox}">
-    <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type FrameworkElement}}, Path=(TextElement.Foreground)}"/>
-    <Setter Property="BorderBrush" Value="{DynamicResource MaterialDesignTextBoxBorder}" />
-    <Setter Property="BorderThickness" Value="0 0 0 1"/>
-    <Setter Property="Background" Value="Transparent"/>
-    <Setter Property="CaretBrush" Value="{DynamicResource PrimaryHueMidBrush}" />
-    <Setter Property="KeyboardNavigation.TabNavigation" Value="None"/>
-    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-    <Setter Property="VerticalContentAlignment" Value="Bottom"/>
-    <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-    <Setter Property="AllowDrop" Value="true"/>
-    <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst"/>
-    <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
-    <Setter Property="Validation.ErrorTemplate" Value="{StaticResource MaterialDesignValidationErrorTemplate}"/>
+  <Style TargetType="{x:Type local:ModernWindow}">
+    <Setter Property="WindowChrome.WindowChrome">
+      <Setter.Value>
+        <WindowChrome GlassFrameThickness="0" CornerRadius="0" CaptionHeight="0" UseAeroCaptionButtons="False" ResizeBorderThickness="4"/>
+      </Setter.Value>
+    </Setter>
     <Setter Property="Template">
       <Setter.Value>
-        <ControlTemplate TargetType="{x:Type TextBox}">
-          <Grid>
-            <VisualStateManager.VisualStateGroups>
-              <VisualStateGroup x:Name="FocusStates">
-                <VisualState x:Name="Focused">
-                  <Storyboard>
-                    <DoubleAnimation Storyboard.TargetProperty="ScaleX" Storyboard.TargetName="ScaleTransform" From="0" To="1" Duration="0:0:0.3">
-                      <DoubleAnimation.EasingFunction>
-                        <SineEase EasingMode="EaseOut" />
-                      </DoubleAnimation.EasingFunction>
-                    </DoubleAnimation>
-                    <DoubleAnimation Storyboard.TargetProperty="ScaleY" Storyboard.TargetName="ScaleTransform" From="0" To="1" Duration="0:0:0.3">
-                      <DoubleAnimation.EasingFunction>
-                        <SineEase EasingMode="EaseOut" />
-                      </DoubleAnimation.EasingFunction>
-                    </DoubleAnimation>
-                    <DoubleAnimation Storyboard.TargetProperty="ScaleX" Storyboard.TargetName="ScaleTransform" To="0" BeginTime="0:0:0.45" Duration="0" />
-                    <DoubleAnimation Storyboard.TargetProperty="ScaleY" Storyboard.TargetName="ScaleTransform" To="0" BeginTime="0:0:0.45" Duration="0" />
-                  </Storyboard>
-                </VisualState>
-                <VisualState x:Name="Unfocused">
-                  <Storyboard>
-                    <DoubleAnimation Storyboard.TargetProperty="ScaleX" Storyboard.TargetName="ScaleTransform" To="0" Duration="0" />
-                    <DoubleAnimation Storyboard.TargetProperty="ScaleY" Storyboard.TargetName="ScaleTransform" To="0" Duration="0" />
-                  </Storyboard>
-                </VisualState>
-              </VisualStateGroup>
-            </VisualStateManager.VisualStateGroups>
-            <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                                Background="#FF0000"
-                                CornerRadius="0"
-                                Visibility="Visible"
-                                RenderTransformOrigin="0.5,0.5">
-              <Border.RenderTransform>
-                <ScaleTransform x:Name="ScaleTransform" ScaleX="0" ScaleY="0" />
-              </Border.RenderTransform>
-            </Border>
-            <Border x:Name="textFieldBoxBorder"
-                                CornerRadius="0"
-                                SnapsToDevicePixels="True">
-              <Grid>
-                <Border x:Name="border"
-                                        BorderBrush="{TemplateBinding BorderBrush}"
-                                        BorderThickness="{TemplateBinding BorderThickness}"
-                                        Background="{TemplateBinding Background}"
-                                        SnapsToDevicePixels="True"
-                                        Padding="0">
-                  <Grid x:Name="textFieldGrid"
-                                          Margin="0"
-                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          MinWidth="1">
-                    <ScrollViewer x:Name="PART_ContentHost" Focusable="false"
-                                                      HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"
-                                                      SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                                      UseLayoutRounding="{TemplateBinding UseLayoutRounding}"
-                                                      />
-                  </Grid>
-                </Border>
-                <Border x:Name="textFieldBoxBottomLine"
-                                        Background="{TemplateBinding BorderBrush}"
-                                        Height="0"
-                                        CornerRadius="0"
-                                        HorizontalAlignment="Stretch"
-                                        VerticalAlignment="Bottom"
-                                        SnapsToDevicePixels="True" />
-                <Line x:Name="DashedLine" VerticalAlignment="Bottom" Visibility="Collapsed"
-                                      StrokeThickness="1.25" StrokeDashArray="1,2.5" StrokeDashCap="Round"
-                                      X1="0" X2="{Binding ActualWidth, ElementName=border}" Y1="0" Y2="0" 
-                                      Stroke="{TemplateBinding BorderBrush}" Opacity="0.56" />
-              </Grid>
-            </Border>
-          </Grid>
+        <ControlTemplate TargetType="{x:Type local:ModernWindow}">
+          <Border BorderThickness="1" BorderBrush="Gray" Background="#FF303030">
+            <Grid x:Name="Root">
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+              </Grid.RowDefinitions>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+              </Grid.ColumnDefinitions>
+              <Border x:Name="Drag" Background="#01FFFFFF" Grid.ColumnSpan="5" />
+              <StackPanel Orientation="Horizontal" Grid.Column="0">
+                <Button Style="{StaticResource TitleBarButton}">
+                  <Path Data="M 0,0.5 L 16,0.5 M 0,6.5 L 16,6.5 M 0,12.5 L 16,12.5" HorizontalAlignment="Left" VerticalAlignment="Top" Stroke="{StaticResource ForegroundColor}" StrokeThickness="1" />
+                </Button>
+                <ContentPresenter Content="{Binding}" ContentTemplate="{TemplateBinding TitlebarDataTemplate}" />
+              </StackPanel>
+              <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center">
+                <TextBlock Text="{TemplateBinding Title}" VerticalAlignment="Center" IsHitTestVisible="False" />
+              </StackPanel>
+              <Button x:Name="Minimize" Grid.Row="0" Grid.Column="2" Style="{StaticResource TitleBarButton}">
+                <Line X1="0" Y1="10" X2="10" Y2="10" Stroke="{StaticResource ForegroundColor}" StrokeThickness="1" />
+              </Button>
+              <Button x:Name="Maximize" Grid.Row="0" Grid.Column="3" Style="{StaticResource TitleBarButton}">
+                <Rectangle Width="10" Height="10" Stroke="{StaticResource ForegroundColor}" StrokeThickness="1" />
+              </Button>
+              <Button x:Name="Close" Grid.Row="0" Grid.Column="4" Style="{StaticResource TitleBarButton}">
+                <Path Data="M 0,0 L 10,10 M 10,0 L 0,10" Margin="2" Stroke="{StaticResource ForegroundColor}" StrokeThickness="1" />
+              </Button>
+              <ContentPresenter Grid.Row="1" Grid.ColumnSpan="5" />
+            </Grid>
+          </Border>
         </ControlTemplate>
       </Setter.Value>
     </Setter>
-    <Style.Triggers>
-      <MultiTrigger>
-        <MultiTrigger.Conditions>
-          <Condition Property="IsInactiveSelectionHighlightEnabled" Value="true"/>
-          <Condition Property="IsSelectionActive" Value="false"/>
-        </MultiTrigger.Conditions>
-        <Setter Property="SelectionBrush" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}"/>
-      </MultiTrigger>
-    </Style.Triggers>
   </Style>
-  -->
 </ResourceDictionary>

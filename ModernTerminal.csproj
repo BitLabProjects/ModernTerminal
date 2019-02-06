@@ -68,6 +68,7 @@
     </Compile>
     <Compile Include="Controls\ButtonDropDown.cs" />
     <Compile Include="Controls\Helpers.cs" />
+    <Compile Include="Controls\ModernWindow.cs" />
     <Compile Include="Controls\PagesView.cs" />
     <Compile Include="Controls\ScrollViewer.cs" />
     <Compile Include="Controls\Underline.cs" />
